@@ -2,42 +2,106 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+
     <modelVersion>4.0.0</modelVersion>
+
 
     <groupId>org.example</groupId>
     <artifactId>PrimerFX</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
 
+    <!-- ========================================================= -->
+    <!--                  DEPENDENCIAS JAVAFX                     -->
+    <!-- ========================================================= -->
     <dependencies>
+
+        <!--
+            Dependencia principal de JavaFX:
+            javafx-controls contiene TODOS los elementos gráficos básicos:
+              - Button
+              - Label
+              - TextField
+              - TextArea
+              - TableView, ListView…
+            Si quieres usar controles en tu interfaz, esta dependencia es OBLIGATORIA.
+        -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>22.0.2</version>
         </dependency>
 
+        <!--
+            Dependencia necesaria para cargar archivos FXML.
+            Incluye:
+              - FXMLLoader
+              - etiqueta fx:controller
+              - capacidad de conectar FXML con controladores Java
+
+            Sin ella:
+              - FXML NO funciona
+              - NO se pueden usar archivos .fxml
+              - Scene Builder NO tendría utilidad
+
+            Como tu proyecto tiene interfaces en FXML, esta dependencia es imprescindible.
+        -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>22.0.2</version>
         </dependency>
+
     </dependencies>
 
+
+    <!-- ========================================================= -->
+    <!--            PLUGIN DE JAVAFX (EJECUCIÓN CON MAVEN)         -->
+    <!-- ========================================================= -->
     <build>
         <plugins>
             <plugin>
+
+                <!--
+                    Este plugin es el que PERMITE ejecutar una aplicación JavaFX
+                    usando Maven mediante:
+                        mvn javafx:run
+
+                    Sin este plugin:
+                      - Maven no sabría cargar las librerías nativas de JavaFX
+                      - La app NO arrancaría correctamente
+                -->
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
+
                 <configuration>
+
+                    <!--
+                        Aquí indicamos cuál es la clase principal del proyecto.
+                        Es la clase que contiene el método main() y extiende Application.
+
+                        Ejemplo:
+                            public class Main extends Application { ... }
+
+                        Importante:
+                          - Debe ir el nombre COMPLETO, incluyendo el paquete si lo hay:
+                                com.ejemplo.proyecto.Main
+                          - En tu caso, está en el paquete por defecto:
+                                Main
+                    -->
                     <mainClass>Main</mainClass>
+
                 </configuration>
+
             </plugin>
         </plugins>
     </build>

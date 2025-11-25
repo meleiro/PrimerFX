@@ -1,52 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+    Importamos las clases de JavaFX que vamos a usar en este FXML.
+    Cada etiqueta que aparece más abajo (VBox, HBox, Label, TextField, etc.)
+    corresponde a una de estas clases.
+-->
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="CalculadoraController"
-      spacing="10">
+<!--
+    El contenedor raíz de la interfaz es un VBox:
+    - Coloca sus elementos hijos uno debajo de otro (en vertical).
+    - spacing="10" indica que dejará 10 píxeles de separación entre cada hijo.
+    xmlns y xmlns:fx son necesarios para que el archivo sea reconocido como FXML.
+    fx:controller indica cuál es la clase Java que actuará como controlador
+    de esta vista (CalculadoraController).
+-->
+<VBox spacing="10"
+      xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="CalculadoraController">
 
+    <!--
+        padding define el margen interior del VBox.
+        Con Insets damos 15 píxeles de margen en cada lado
+        para que los componentes no queden pegados a los bordes de la ventana.
+    -->
     <padding>
-        <Insets top="15" right="15" bottom="15" left="15"/>
+        <Insets bottom="15" left="15" right="15" top="15" />
     </padding>
 
-    <Label text="Demo JavaFX: fx:id y onAction" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    <!--
+        Label de cabecera: muestra el título de la ventana.
+        El estilo se define con propiedades CSS:
+        - tamaño de fuente 16px
+        - texto en negrita
+    -->
+    <Label
+            text="Demo JavaFX: fx:id y onAction"
+            style="-fx-font-size: 16px; -fx-font-weight: bold;" />
 
-    <Label text="Introduce dos números y pulsa &quot;Sumar&quot;:"/>
+    <!--
+        Segundo Label con un texto explicativo para el usuario.
+        &quot; es la forma de escribir comillas dobles (") en XML.
+    -->
+    <Label text="Introduce dos números y pulsa &quot;Sumar&quot;:" />
 
+
+    <!--
+        HBox: contenedor horizontal.
+        Dentro colocaremos dos VBox, uno para cada número.
+        spacing="10" deja espacio entre las columnas.
+    -->
     <HBox spacing="10">
+
+        <!--
+            Primer VBox: contiene la etiqueta y el campo de texto
+            para el primer número.
+        -->
         <VBox spacing="5">
-            <Label text="Número 1:"/>
-            <!-- fx:id vincula este TextField con txtNumero1 en el controlador -->
-            <TextField fx:id="txtNumero1" promptText="Ej: 5"/>
+            <Label text="Número 1:" />
+
+            <!--
+                TextField donde el usuario escribirá el primer número.
+                fx:id="txtNumero1" enlaza este control con el atributo
+                txtNumero1 del controlador CalculadoraController:
+
+                    @FXML
+                    private TextField txtNumero1;
+
+                promptText muestra un texto de ejemplo cuando el campo está vacío.
+            -->
+            <TextField fx:id="txtNumero1" promptText="Ej: 5" />
         </VBox>
 
+        <!--
+            Segundo VBox: etiqueta + campo de texto para el segundo número.
+        -->
         <VBox spacing="5">
-            <Label text="Número 2:"/>
-            <!-- fx:id vincula este TextField con txtNumero2 en el controlador -->
-            <TextField fx:id="txtNumero2" promptText="Ej: 7"/>
+            <Label text="Número 2:" />
+
+            <!--
+                Igual que el primero, pero enlazado al atributo txtNumero2
+                del controlador (vía fx:id).
+            -->
+            <TextField fx:id="txtNumero2" promptText="Ej: 7" />
         </VBox>
     </HBox>
 
-    <!-- onAction llama al método onSumarClick del controlador -->
-    <Button text="Sumar" />
+    <!--
+        Botón de acción.
+        text define el texto que ve el usuario.
+        onAction="#onSumarClick" indica que, al hacer clic,
+        JavaFX llamará al método onSumarClick(ActionEvent e)
+        definido en el CalculadoraController.
+    -->
+    <Button text="Sumar" onAction="#onSumarClick"/>
 
+    <!--
+        Label donde se mostrará el resultado de la operación.
+        fx:id="lblResultado" permitirá cambiar su texto desde el controlador
+        mediante lblResultado.setText(...).
+    -->
+    <Label fx:id="lblResultado"
+           text="Resultado: "
+           style="-fx-font-size: 14px;" />
 
+    <!--
+        TextArea para mostrar explicaciones o mensajes al usuario.
+        - fx:id="lblExplicacion": se enlaza con un atributo TextArea en el controlador.
+        - editable="false": el usuario no puede escribir en él.
+        - prefRowCount="4": altura aproximada de 4 líneas.
+        - wrapText="true": el texto se ajusta automáticamente a varias líneas.
+        - promptText: texto de ayuda cuando está vacío.
+    -->
+    <TextArea fx:id="lblExplicacion"
+              editable="false"
+              prefRowCount="4"
+              wrapText="true"
+              promptText="prueba" />
 
-    <Separator/>
+    <!--
+        Separator: dibuja una línea horizontal que sirve para separar visualmente
+        la parte práctica (la calculadora) de la parte teórica (las preguntas tipo test).
+    -->
+    <Separator />
 
-    <!-- Zona tipo cuestionario para recordar las preguntas del test -->
+    <!--
+        VBox con las preguntas teóricas, a modo de recordatorio para el alumno.
+        spacing="5" añade un poco de espacio vertical entre cada Label.
+    -->
     <VBox spacing="5">
-        <Label text="Preguntas teóricas:" style="-fx-font-weight: bold;"/>
 
-        <Label text="1) ¿Qué atributo se usa en FXML para vincular un control con una variable del controlador Java?"/>
-        <Label text="    A) fx:controller   B) id:name   C) fx:bind   D) fx:id"/>
+        <!-- Título de la sección de preguntas -->
+        <Label
+                text="Preguntas teóricas:"
+                style="-fx-font-weight: bold;" />
 
-        <Label text="2) En JavaFX, ¿qué hace la propiedad onAction de un botón?"/>
-        <Label text="    A) Cambia su color   B) Asocia una acción al hacer clic   C) Muestra un texto   D) Lo deshabilita"/>
+        <!--
+            Pregunta 1: texto de la pregunta y opciones.
+            En esta interfaz solo se muestran como texto,
+            no hay interacción (no son botones ni radio buttons).
+        -->
+        <Label text="1) ¿Qué atributo se usa en FXML para vincular un control con una variable del controlador Java?" />
+        <Label text="    A) fx:controller   B) id:name   C) fx:bind   D) fx:id" />
+
+        <!--
+            Pregunta 2: de nuevo, texto plano.
+            La respuesta correcta (para explicar en clase) es:
+            B) Asocia una acción al hacer clic.
+        -->
+        <Label text="2) En JavaFX, ¿qué hace la propiedad onAction de un botón?" />
+        <Label text="    A) Cambia su color   B) Asocia una acción al hacer clic   C) Muestra un texto   D) Lo deshabilita" />
     </VBox>
 
 </VBox>
