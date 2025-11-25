@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="CalculadoraController"
+      spacing="10">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <Label text="Demo JavaFX: fx:id y onAction" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <Label text="Introduce dos números y pulsa &quot;Sumar&quot;:"/>
+
+    <HBox spacing="10">
+        <VBox spacing="5">
+            <Label text="Número 1:"/>
+            <!-- fx:id vincula este TextField con txtNumero1 en el controlador -->
+            <TextField fx:id="txtNumero1" promptText="Ej: 5"/>
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="Número 2:"/>
+            <!-- fx:id vincula este TextField con txtNumero2 en el controlador -->
+            <TextField fx:id="txtNumero2" promptText="Ej: 7"/>
+        </VBox>
+    </HBox>
+
+    <!-- onAction llama al método onSumarClick del controlador -->
+    <Button text="Sumar" />
+
+
+
+    <Separator/>
+
+    <!-- Zona tipo cuestionario para recordar las preguntas del test -->
+    <VBox spacing="5">
+        <Label text="Preguntas teóricas:" style="-fx-font-weight: bold;"/>
+
+        <Label text="1) ¿Qué atributo se usa en FXML para vincular un control con una variable del controlador Java?"/>
+        <Label text="    A) fx:controller   B) id:name   C) fx:bind   D) fx:id"/>
+
+        <Label text="2) En JavaFX, ¿qué hace la propiedad onAction de un botón?"/>
+        <Label text="    A) Cambia su color   B) Asocia una acción al hacer clic   C) Muestra un texto   D) Lo deshabilita"/>
+    </VBox>
+
+</VBox>
